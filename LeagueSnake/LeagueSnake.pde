@@ -24,11 +24,11 @@ public Segment(int x, int y) {
 //*
 
 Segment s;
-
+ArrayList<Segment> tail = new ArrayList<Segment>();
 int foodX;
 int foodY;
 
-int up = UP;
+int direction = UP;
 int hasEaten = 0;
 //*
 // ***** SETUP METHODS *****
@@ -64,7 +64,9 @@ foodY = ((int)random(50)*10);
 void draw() {
  background(0,0,0);
  drawFood();
+ move();
  drawSnake();
+ eat();
 }
 
 void drawFood() {
@@ -88,14 +90,20 @@ drawTail();
 
 void drawTail() {
   //Draw each segment of the tail 
- // for(int i =0;i<;i++){
-//rect(s.x,s.y,10,10);
-//  }
+  for(int i =0;i<tail.size();i++){
+rect(tail.get(i).x,tail.get(i).y,10,10);
+  }
 }
 
 void manageTail() {
+  checkTailCollision();
+  drawTail();
   //After drawing the tail, add a new segment at the "start" of the tail and remove the one at the "end" 
   //This produces the illusion of the snake tail moving.
+  
+  
+  
+  
   
 }
 
@@ -113,18 +121,19 @@ void checkTailCollision() {
 
 void keyPressed() {
   //Set the direction of the snake according to the arrow keys pressed
-  if(keyCode == UP){
-  up=UP;
+  if(keyCode == UP&& direction !=DOWN){
+  direction=UP;
   } 
-   if(keyCode == DOWN){
-  up=DOWN;
+   if(keyCode == DOWN && direction !=UP){
+  direction=DOWN;
   }
-   if(keyCode == LEFT){
-  up= LEFT;
+   if(keyCode == LEFT && direction !=RIGHT){
+  direction= LEFT;
   }
-  if(keyCode == RIGHT){
-  up=RIGHT;
+  if(keyCode == RIGHT && direction !=LEFT){
+  direction=RIGHT;
   }
+  
    
    
 }
@@ -133,7 +142,7 @@ void move() {
   //Change the location of the Snake head based on the direction it is moving.
   
     
-  switch(up) {
+  switch(direction) {
   case UP:
     s.y-=10;
     break;
@@ -147,7 +156,7 @@ void move() {
     s.x+=10;
     break;
   }
- 
+ checkBoundaries();
 }
 
 void checkBoundaries() {
@@ -169,6 +178,9 @@ if(s.y>500){
 
 
 void eat() {
-  //When the snake eats the food, its tail should grow and more food appear
+if(s.x==foodX && s.y == foodY){
+hasEaten++;
+dropFood();
+}
 
 }
