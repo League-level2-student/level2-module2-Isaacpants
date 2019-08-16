@@ -28,6 +28,8 @@ Segment s;
 int foodX;
 int foodY;
 
+int up = UP;
+int hasEaten = 0;
 //*
 // ***** SETUP METHODS *****
 // These methods are called at the start of the game.
@@ -75,6 +77,7 @@ void drawSnake() {
   //Draw the head of the snake followed by its tail
 fill(255,0,0);
 rect(s.x,s.y,10,10);
+drawTail();
 }
 
 
@@ -85,7 +88,9 @@ rect(s.x,s.y,10,10);
 
 void drawTail() {
   //Draw each segment of the tail 
-
+ // for(int i =0;i<;i++){
+//rect(s.x,s.y,10,10);
+//  }
 }
 
 void manageTail() {
@@ -108,33 +113,57 @@ void checkTailCollision() {
 
 void keyPressed() {
   //Set the direction of the snake according to the arrow keys pressed
-  
+  if(keyCode == UP){
+  up=UP;
+  } 
+   if(keyCode == DOWN){
+  up=DOWN;
+  }
+   if(keyCode == LEFT){
+  up= LEFT;
+  }
+  if(keyCode == RIGHT){
+  up=RIGHT;
+  }
+   
+   
 }
 
 void move() {
   //Change the location of the Snake head based on the direction it is moving.
   
-    /*
-  switch(direction) {
+    
+  switch(up) {
   case UP:
-    // move head up here 
+    s.y-=10;
     break;
   case DOWN:
-    // move head down here 
+       s.y+=10;
     break;
   case LEFT:
-   // figure it out 
+  s.x-=10;
     break;
   case RIGHT:
-    // mystery code goes here 
+    s.x+=10;
     break;
   }
-  */
+ 
 }
 
 void checkBoundaries() {
- //If the snake leaves the frame, make it reappear on the other side
- 
+if(s.x>500){
+  s.x=0;
+}
+ if(s.x<0){
+  s.x=500;
+}
+if(s.y>500){
+  s.y=0;
+  
+}
+ if(s.y<0){
+  s.y=500;
+}
 }
 
 
